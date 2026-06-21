@@ -1,7 +1,6 @@
 ---
 title: 做点小东西
 date: 2026-05-12
-description: 与其空想宏大的项目，不如把微不足道的小事做完。
 category: 折腾
 ---
 

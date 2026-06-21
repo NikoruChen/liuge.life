@@ -47,44 +47,117 @@
 
         /* Header */
         header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: color-mix(in srgb, var(--bg) 88%, transparent);
+            backdrop-filter: saturate(180%) blur(12px);
+            -webkit-backdrop-filter: saturate(180%) blur(12px);
+            border-bottom: 1px solid var(--line);
+        }
+        .header-inner {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 36px 0 0;
+            height: 64px;
         }
 
         .brand {
-            font-weight: 700;
-            font-size: 18px;
+            font-weight: 800;
+            font-size: 20px;
             letter-spacing: -0.01em;
             color: var(--text);
             text-decoration: none;
         }
 
+        nav { display: flex; align-items: center; }
         nav a {
             color: var(--muted);
             text-decoration: none;
             font-size: 15px;
-            margin-left: 22px;
+            font-weight: 500;
+            margin-left: 28px;
+            transition: color 0.15s ease;
         }
         nav a:hover { color: var(--text); }
+        nav a.active { color: var(--text); font-weight: 600; }
 
-        /* Intro */
-        .intro {
-            padding: 64px 0 40px;
+        /* Landing / hero */
+        .hero {
+            text-align: center;
+            padding: 80px 0 64px;
             border-bottom: 1px solid var(--line);
         }
+        .avatar {
+            width: 116px;
+            height: 116px;
+            border-radius: 50%;
+            margin: 0 auto 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 48px;
+            font-weight: 700;
+            color: #2a2a2a;
+            background: linear-gradient(135deg, #e6eefb, #cfe0f6);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+        .hero h1 {
+            font-size: 46px;
+            line-height: 1.12;
+            letter-spacing: -0.03em;
+            margin: 0 0 18px;
+            font-weight: 800;
+        }
+        .hero .lead {
+            margin: 0 auto;
+            max-width: 560px;
+            color: var(--muted);
+            font-size: 20px;
+            line-height: 1.6;
+        }
+        .hero-actions {
+            margin-top: 32px;
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            padding: 12px 22px;
+            border-radius: 999px;
+            transition: opacity 0.15s ease, background 0.15s ease;
+        }
+        .btn-primary { background: var(--accent); color: var(--bg); }
+        .btn-primary:hover { opacity: 0.85; }
+        .btn-ghost { border: 1px solid var(--line); color: var(--text); }
+        .btn-ghost:hover { background: var(--line); }
+
+        /* Section intro on the posts page */
+        .intro {
+            padding: 56px 0 8px;
+        }
         .intro h1 {
-            font-size: 40px;
+            font-size: 36px;
             line-height: 1.15;
             letter-spacing: -0.03em;
-            margin: 0 0 16px;
+            margin: 0 0 12px;
             font-weight: 800;
         }
         .intro p {
             margin: 0;
             color: var(--muted);
-            font-size: 19px;
+            font-size: 18px;
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 34px; }
+            .hero .lead { font-size: 18px; }
         }
 
         /* Post list (cards) */
@@ -95,7 +168,7 @@
         }
 
         .post-card {
-            display: block;
+            display: flex;
             text-decoration: none;
             color: inherit;
             border: 1px solid var(--line);
@@ -111,26 +184,39 @@
         }
 
         .card-banner {
-            aspect-ratio: 16 / 7;
+            flex: 0 0 42%;
+            align-self: stretch;
+            min-height: 200px;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
             padding: 24px;
             color: #2a2a2a;
+            background-size: cover;
+            background-position: center;
         }
-        .banner-icon { font-size: 34px; line-height: 1; margin-bottom: 14px; }
-        .banner-title {
-            font-family: Georgia, "Times New Roman", serif;
-            font-size: 30px;
-            font-weight: 700;
-            line-height: 1.2;
-            letter-spacing: -0.01em;
-            max-width: 90%;
+        .banner-icon { font-size: 46px; line-height: 1; }
+
+        .card-body {
+            flex: 1;
+            min-width: 0;
+            padding: 28px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        .card-body { padding: 24px 26px 26px; }
+        @media (max-width: 640px) {
+            .post-card { flex-direction: column; }
+            .card-banner {
+                flex: none;
+                width: 100%;
+                min-height: 0;
+                aspect-ratio: 16 / 7;
+            }
+            .card-body { padding: 22px 24px 24px; }
+        }
 
         .post-meta {
             font-size: 13px;
@@ -151,6 +237,10 @@
             color: var(--muted);
             font-size: 17px;
             line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
         .read-link {
             font-size: 15px;
@@ -274,12 +364,17 @@
     </style>
 </head>
 <body>
-    <div class="wrap">
-        <header>
+    <header>
+        <div class="wrap header-inner">
             <a class="brand" href="#/">六格</a>
-            <nav></nav>
-        </header>
+            <nav>
+                <a href="#/" data-route="home">首页</a>
+                <a href="#/posts" data-route="posts">笔记</a>
+            </nav>
+        </div>
+    </header>
 
+    <div class="wrap">
         <main id="app">
             <p class="loading">加载中…</p>
         </main>
@@ -337,6 +432,21 @@
                 body = m[2];
             }
             return { meta, body };
+        }
+
+        // Build a plain-text excerpt from the markdown body: drop the leading
+        // title heading and markdown syntax, then take the opening lines.
+        function excerpt(body, max = 150) {
+            const text = (body || "")
+                .replace(/^#{1,6}\s+.*$/gm, "")        // heading lines
+                .replace(/^[-*]\s+/gm, "")             // list markers
+                .replace(/\*\*(.+?)\*\*/g, "$1")       // bold
+                .replace(/\*(.+?)\*/g, "$1")           // italic
+                .replace(/\[(.+?)\]\(.+?\)/g, "$1")    // links -> text
+                .replace(/\s+/g, " ")
+                .trim();
+            if (text.length <= max) return text;
+            return text.slice(0, max).replace(/\s+\S*$/, "") + "…";
         }
 
         function fmtDate(s) {
@@ -408,7 +518,7 @@
             const q = query.trim().toLowerCase();
             if (!q) return [];
             return posts.filter(p => {
-                const hay = [p.meta.title, p.meta.description, p.meta.category, p.body]
+                const hay = [p.meta.title, p.meta.category, p.body]
                     .filter(Boolean).join(" ").toLowerCase();
                 return hay.includes(q);
             });
@@ -424,25 +534,55 @@
         const DEFAULT_STYLE = { icon: "📝", bg: "linear-gradient(135deg, #f0f0f0, #dcdcdc)" };
         function cardStyle(category) { return CARD_STYLES[category] || DEFAULT_STYLE; }
 
+        let homeContent = null;
+        async function loadHome() {
+            if (homeContent) return homeContent;
+            try {
+                homeContent = await fetch("home.json").then(r => r.json());
+            } catch (e) {
+                homeContent = {};
+            }
+            return homeContent;
+        }
+
+        async function renderHome() {
+            const c = await loadHome();
+            const headline = Array.isArray(c.headline) ? c.headline : [c.headline || "六格"];
+            const cta = c.cta || {};
+            app.innerHTML = `
+                <section class="hero">
+                    <div class="avatar">${escapeHtml(c.avatar || "六")}</div>
+                    <h1>${headline.map(escapeHtml).join("<br>")}</h1>
+                    <p class="lead">${escapeHtml(c.lead || "")}</p>
+                    <div class="hero-actions">
+                        <a class="btn btn-primary" href="${escapeHtml(cta.href || "#/posts")}">${escapeHtml(cta.label || "阅读笔记 →")}</a>
+                    </div>
+                </section>`;
+            window.scrollTo(0, 0);
+        }
+
         function renderList(posts) {
             app.innerHTML = `
+                <div class="intro">
+                    <h1>近期笔记</h1>
+                </div>
                 <div class="search">
-                    <input class="search-input" type="search" id="search" placeholder="搜索文章…" autocomplete="off">
+                    <input class="search-input" type="search" id="search" placeholder="搜索笔记…" autocomplete="off">
                     <div class="dropdown" id="dropdown" hidden></div>
                 </div>
                 <section class="posts" style="padding-top:24px">
                     ${posts.map(p => {
                         const s = cardStyle(p.meta.category);
+                        const banner = p.meta.image
+                            ? `<div class="card-banner" style="background-image:url('${escapeHtml(p.meta.image)}')"></div>`
+                            : `<div class="card-banner" style="background:${s.bg}"><div class="banner-icon">${s.icon}</div></div>`;
                         return `
                         <a class="post-card" href="#/post/${p.slug}">
-                            <div class="card-banner" style="background:${s.bg}">
-                                <div class="banner-icon">${s.icon}</div>
-                                <div class="banner-title">${escapeHtml(p.meta.title || p.slug)}</div>
-                            </div>
+                            ${banner}
                             <div class="card-body">
                                 <div class="post-meta">${fmtDate(p.meta.date)}${p.meta.category ? " · " + escapeHtml(p.meta.category) : ""}</div>
                                 <h2 class="post-title">${escapeHtml(p.meta.title || p.slug)}</h2>
-                                <p class="post-desc">${escapeHtml(p.meta.description || "")}</p>
+                                <p class="post-desc">${escapeHtml(excerpt(p.body))}</p>
                                 <span class="read-link">→ 阅读全文</span>
                             </div>
                         </a>`;
@@ -464,10 +604,10 @@
                 activeIdx = -1;
                 if (!q.trim()) { close(); return; }
                 if (!matches.length) {
-                    dropdown.innerHTML = `<div class="dropdown-empty">没有匹配的文章</div>`;
+                    dropdown.innerHTML = `<div class="dropdown-empty">没有匹配的笔记</div>`;
                 } else {
                     dropdown.innerHTML = matches.map((p, i) => {
-                        const snip = snippetFor(p.body, q) || snippetFor(p.meta.description, q);
+                        const snip = snippetFor(p.body, q);
                         return `
                         <a class="dropdown-item" href="#/post/${p.slug}" data-idx="${i}">
                             <div class="d-title">${highlight(p.meta.title || p.slug, q)}</div>
@@ -503,25 +643,39 @@
 
         function renderPost(posts, slug) {
             const post = posts.find(p => p.slug === slug);
-            if (!post) { app.innerHTML = `<article><a class="back" href="#/">← 返回文章列表</a><p>没有找到这篇文章。</p></article>`; return; }
+            if (!post) { app.innerHTML = `<article><a class="back" href="#/posts">← 返回笔记列表</a><p>没有找到这篇笔记。</p></article>`; return; }
             app.innerHTML = `
                 <article>
-                    <a class="back" href="#/">← 返回文章列表</a>
+                    <a class="back" href="#/posts">← 返回笔记列表</a>
                     <div class="post-meta" style="margin-top:24px">${fmtDate(post.meta.date)}${post.meta.category ? " · " + escapeHtml(post.meta.category) : ""}</div>
                     ${renderMarkdown(post.body)}
                 </article>`;
             window.scrollTo(0, 0);
         }
 
+        function setActiveNav(hash) {
+            const route = (hash.startsWith("#/posts") || hash.startsWith("#/post/")) ? "posts" : "home";
+            document.querySelectorAll("nav a[data-route]").forEach(a => {
+                a.classList.toggle("active", a.dataset.route === route);
+            });
+        }
+
         async function router() {
             const hash = location.hash || "#/";
+            setActiveNav(hash);
             try {
-                const posts = await loadPosts();
                 const m = hash.match(/^#\/post\/(.+)$/);
-                if (m) renderPost(posts, decodeURIComponent(m[1]));
-                else renderList(posts);
+                if (m) {
+                    const posts = await loadPosts();
+                    renderPost(posts, decodeURIComponent(m[1]));
+                } else if (hash.startsWith("#/posts")) {
+                    const posts = await loadPosts();
+                    renderList(posts);
+                } else {
+                    await renderHome();
+                }
             } catch (e) {
-                app.innerHTML = `<p class="loading">文章加载失败。如果你是直接打开本地文件查看的，请运行 <code>python3 -m http.server</code>，然后访问 localhost:8000。</p>`;
+                app.innerHTML = `<p class="loading">笔记加载失败。如果你是直接打开本地文件查看的，请运行 <code>python3 -m http.server</code>，然后访问 localhost:8000。</p>`;
             }
         }
 
